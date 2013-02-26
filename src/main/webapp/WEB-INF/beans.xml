@@ -17,24 +17,28 @@
 
 	
 	
-	
+	<!-- 
+	 Apache cxf(2.5.2) doesnt support raw json objects like org.codehaus.jettison.JSONObject. for using json 
+	 in requests and responses, i used pojos(simply getters and setters with JAXB annotations )
+	 and apache cxf json provider i.e. org.apache.cxf.jaxrs.provider.json.JSONProvider. 
+	 -->
 	<bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+	<!-- 
+		<property name="dropRootElement" value="true" />
+		<property name="supportUnwrapped" value="true" />
+	 -->
 	</bean>
 	
-	<!-- 
-	<util:map id="jsonNamespaceMap" map-class="java.util.Hashtable">
-	<entry key="http://www.example.org/books" value="b"/>
-	</util:map>
-	 -->
-
 	<!-- JAX-RS -->
   	<jaxrs:server address="/rs/email">
    	  <jaxrs:serviceBeans>
       <ref bean="email" />
     </jaxrs:serviceBeans>
+   
      <jaxrs:providers>
      	<ref bean="jsonProvider"/>
      </jaxrs:providers>
+  
   	</jaxrs:server>
 
 

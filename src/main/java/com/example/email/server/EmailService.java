@@ -15,6 +15,7 @@ import javax.xml.ws.Response;
 
 
 import com.example.email.client.Email;
+import com.example.email.client.EmailResponse;
 import com.example.email.client.type.SendResponse;
 /*
 import com.example.email.client.type.SendResponse;
@@ -36,11 +37,16 @@ public class EmailService implements Email
 	
 	@GET
 	@Produces("application/json")
-    public String sendrs(@PathParam("text") String text)  
+    public EmailResponse sendrs(@PathParam("text") String text)  
     {     
 
-	    System.out.println("Length:" + context.getLanguage());	
-	    return this.send(text);
+	
+		EmailResponse response = new EmailResponse();
+		response.setUser(text);
+		response.setAddress("jzaragoza@prosodie.es");
+		
+				
+	    return response;
     	
     }
 		

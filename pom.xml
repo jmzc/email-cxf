@@ -245,3 +245,60 @@
     
 	
 </project>
+
+
+
+
+<!--The configuration of this plugin is used to store the Eclipse M2E settings only. It has no influence on the Maven build itself. -->
+<!--
+  
+<pluginManagement>
+    <plugins>
+   
+    <plugin>
+              <groupId>org.eclipse.m2e</groupId>
+              <artifactId>lifecycle-mapping</artifactId>
+              <version>1.0.0</version>
+              <configuration>
+                <lifecycleMappingMetadata>
+                 <pluginExecutions>
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-codegen-plugin</artifactId>
+                        <versionRange> [2.2,)</versionRange>
+                        <goals>
+                          <goal>wsdl2java</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        
+                        <ignore />
+                      </action>
+                    </pluginExecution>
+                   
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-java2ws-plugin</artifactId>
+                        <versionRange> [2.2,)</versionRange>
+                        <goals>
+                          <goal>java2ws</goal>
+                        </goals>
+                        
+                      </pluginExecutionFilter>
+                      <action>
+                        
+                        <ignore />
+                      </action>
+                    </pluginExecution>
+                    
+                  </pluginExecutions>
+                </lifecycleMappingMetadata>
+              </configuration>
+	    </plugin>
+	  </plugins>
+	  </pluginManagement>
+
+
+ -->
