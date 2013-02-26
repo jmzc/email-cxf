@@ -4,6 +4,12 @@ package com.example.email.server;
 import java.util.concurrent.Future;
 
 import javax.jws.WebService;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.xml.ws.AsyncHandler;
 import javax.xml.ws.Response;
 
@@ -20,20 +26,38 @@ import org.apache.cxf.jaxws.ServerAsyncResponse;
 
 
 @WebService(endpointInterface = "com.example.email.client.Email", serviceName = "EmailService", portName = "EmailPort")
+@Path("{text}")
 public class EmailService implements Email
 {
+	
+	// JAX-RS
+	@Context HttpHeaders context;
 
+	
+	@GET
+	@Produces("application/json")
+    public String sendrs(@PathParam("text") String text)  
+    {     
 
+	    System.out.println("Length:" + context.getLanguage());	
+	    return this.send(text);
+    	
+    }
+		
+	
+	 // JAX-WS
+	
     public String send(String text)  
     {     
 
-	    	 
-	        return "how are you !!!";
+    	
+	    return "Enviando correo para:" + text;
     	
     }
 	
 	
     
+   
     public Future<?> sendAsync(String text, AsyncHandler<SendResponse> sendHandler) 
     {
     		

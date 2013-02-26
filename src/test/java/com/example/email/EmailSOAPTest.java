@@ -16,7 +16,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 */
 
-public class EmailTest 
+public class EmailSOAPTest 
 {
 
 	/*
@@ -33,12 +33,12 @@ public class EmailTest
           {
 
         	  Service service = Service.create(serviceName);
-        	  service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING,"http://localhost:8080/email/email"); 
+        	  service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING,"http://localhost:8080/email/ws/email"); 
         	 
         	  
         	  Email client = service.getPort(portName,  Email.class);
 
-        	  String r = client.send("Texto asincrono");
+        	  String r = client.send("jmzc");
         	  System.out.println("Resultado asincrono:" + r);
         	  
         	  
