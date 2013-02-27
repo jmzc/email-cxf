@@ -3,12 +3,20 @@ package com.example.email;
 
 
 
+import java.util.concurrent.Future;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
+
 import com.example.email.client.Email;
 import com.example.email.client.EmailAsyncHandler;
+import com.example.email.client.type.EmailRequest;
 
 
 /*
@@ -21,7 +29,6 @@ public class EmailSOAPTest
 
 	/*
     @Test
-	public void testSayHi()
 	*/
 	public static final void main(String[] a )
     {
@@ -37,14 +44,32 @@ public class EmailSOAPTest
         	 
         	  
         	  Email client = service.getPort(portName,  Email.class);
+        	  
+        	  Client c = ClientProxy.getClient(client);
+        	  c.getInInterceptors().add(new LoggingInInterceptor());
+              c.getOutInterceptors().add(new LoggingOutInterceptor()); 
 
-        	  String r = client.send("jmzc");
-        	  System.out.println("Resultado asincrono:" + r);
-        	  
-        	  
-        	  
-        	 client.sendAsync("Texto a enviar", new EmailAsyncHandler());
+   
+        	  EmailRequest request = new EmailRequest();
+        	  request.setAddress("jzaragoza@prosodie.es");
+        			  
         	 
+        	  /*
+        	  EmailResponse r = client.send(request);
+        	  System.out.println("Resultado sincrono[" + r.getCode() + "][" + r.getError() + "]");
+        	  */
+        	  
+        	  /*
+        	 EmailWrapper r = new EmailWrapper();
+        	 r.setEmailRequest(request);
+        	 */
+        	  
+        	  Future<?> future = client.sendAsync(request, new EmailAsyncHandler());
+        	  while (!future.isDone()) 
+        	  {
+        		  System.out.println("Waiting ...");
+        	      Thread.sleep(100);
+        	  }
         
         	
 
@@ -53,7 +78,7 @@ public class EmailSOAPTest
           }
           catch(Exception e)
           {
-        	  System.err.println("EXCEPCION CLIENTE");
+        	  System.err.println("Client exception");
         	  e.printStackTrace();
           }
 

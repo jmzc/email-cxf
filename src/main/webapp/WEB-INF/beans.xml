@@ -42,8 +42,6 @@
   	</jaxrs:server>
 
 
-
-
 	<jaxws:endpoint 
 	  implementor="#email" 
 	  address="/ws/email" />

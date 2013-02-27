@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="EmailService" targetNamespace="http://prosodie.com/ws/email/" xmlns:ns1="http://prosodie.com/ws/email/type" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://prosodie.com/ws/email/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://prosodie.com/ws/email/" version="1.0">
-<xs:complexType name="send">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://prosodie.com/ws/email/" targetNamespace="http://prosodie.com/ws/email/" version="1.0">
+<xs:complexType name="emailWrapper">
     <xs:sequence>
-      <xs:element minOccurs="0" name="requestType" type="xs:string"/>
+      <xs:element minOccurs="0" name="emailRequest" type="tns:emailRequest"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="sendResponse">
+<xs:complexType name="emailRequest">
     <xs:sequence>
-      <xs:element minOccurs="0" name="responseType" type="xs:string"/>
+      <xs:element minOccurs="0" name="subject" type="xs:string"/>
+      <xs:element minOccurs="0" name="address" type="xs:string"/>
+      <xs:element minOccurs="0" name="text" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="emailResponseWrapper">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="emailResponse" type="tns:emailResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="emailResponse">
+    <xs:sequence>
+      <xs:element name="code" type="xs:int"/>
+      <xs:element minOccurs="0" name="error" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://prosodie.com/ws/email/" xmlns:tns="http://prosodie.com/ws/email/type" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://prosodie.com/ws/email/type">
-  <xsd:element name="send" nillable="true" type="ns0:send"/>
-  <xsd:element name="sendResponse" nillable="true" type="ns0:sendResponse"/>
+  <xsd:element name="emailWrapper" nillable="true" type="ns0:emailWrapper"/>
+  <xsd:element name="emailResponseWrapper" nillable="true" type="ns0:emailResponseWrapper"/>
 </xsd:schema>
   </wsdl:types>
   <wsdl:message name="sendResponse">
-    <wsdl:part name="parameters" element="ns1:sendResponse">
+    <wsdl:part name="parameters" element="ns1:emailResponseWrapper">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="send">
-    <wsdl:part name="parameters" element="ns1:send">
+    <wsdl:part name="parameters" element="ns1:emailWrapper">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="Email">

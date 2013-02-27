@@ -13,20 +13,20 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.xml.ws.AsyncHandler;
 import javax.xml.ws.Response;
 
+import org.apache.cxf.interceptor.InInterceptors;
+import org.apache.cxf.interceptor.OutInterceptors;
+import org.apache.cxf.jaxws.ServerAsyncResponse;
 
 import com.example.email.client.Email;
-import com.example.email.client.EmailResponse;
-import com.example.email.client.type.SendResponse;
-/*
-import com.example.email.client.type.SendResponse;
-*/
+import com.example.email.client.type.EmailRequest;
+import com.example.email.client.type.EmailResponse;
+import com.example.email.client.type.EmailResponseWrapper;
 
-
-
-import org.apache.cxf.jaxws.ServerAsyncResponse;
 
 
 @WebService(endpointInterface = "com.example.email.client.Email", serviceName = "EmailService", portName = "EmailPort")
+@InInterceptors(interceptors = "org.apache.cxf.interceptor.LoggingInInterceptor")
+@OutInterceptors(interceptors = "org.apache.cxf.interceptor.LoggingOutInterceptor")
 @Path("{text}")
 public class EmailService implements Email
 {
@@ -40,61 +40,66 @@ public class EmailService implements Email
     public EmailResponse sendrs(@PathParam("text") String text)  
     {     
 
-	
+		/*
 		EmailResponse response = new EmailResponse();
 		response.setUser(text);
 		response.setAddress("jzaragoza@prosodie.es");
 		
 				
 	    return response;
+	    */
+		
+		return null;
     	
     }
 		
 	
 	 // JAX-WS
-	
-    public String send(String text)  
+	@Override
+    public EmailResponse send(EmailRequest emailRequest)  
     {     
-
-    	
-	    return "Enviando correo para:" + text;
+		System.out.println("Invoked sync send method...");
+		
+		try
+		{
+			Thread.sleep(10000);
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+		EmailResponse response = new  EmailResponse();
+		response.setCode(0);
+		response.setError("Mensaje enviado correctamente para:" + emailRequest.getAddress());
+	    
+		return response;
     	
     }
 	
 	
     
-   
-    public Future<?> sendAsync(String text, AsyncHandler<SendResponse> sendHandler) 
+    @Override
+    public Future<?> sendAsync(EmailRequest emailRequest, AsyncHandler<EmailResponseWrapper> sendHandler) 
     {
-    		
-     		
-    	final ServerAsyncResponse<SendResponse> r = new ServerAsyncResponse<SendResponse>();
-    	
-    	SendResponse response = new SendResponse();
-    	response.setResponseType(this.send(text));
-    	
-    	
-    	r.set(response);
-    		
-        return r;
+
+    	return null;
 
     }
 
-
-	public Response<SendResponse> sendAsync(String text)
+    @Override
+	public Response<EmailResponseWrapper> sendAsync(EmailRequest emailRequest)
 	{
-
-		        
-final ServerAsyncResponse<SendResponse> r = new ServerAsyncResponse<SendResponse>();
     	
-    	SendResponse response = new SendResponse();
-    	response.setResponseType(this.send(text));
-    	r.set(response);
-  
-        return r;
+        return null;
 		
 		
 	}
+
+
+
+
+
 
 
 
